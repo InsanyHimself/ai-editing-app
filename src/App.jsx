@@ -734,16 +734,45 @@ function App() {
                   </div>
                 </div>
 
-                <button className="btn btn-primary" onClick={handleUploadClick}>
-                  <Upload size={18} /> Upload Image
-                </button>
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  onChange={handleImageUpload}
-                  className="hidden-file-input"
-                  accept="image/png, image/jpeg, image/gif"
-                />
+                <div className="upload-methods">
+                  <button 
+                    className="btn btn-primary" 
+                    onClick={() => {
+                      console.log("Upload button clicked - attempting to trigger file input");
+                      setTimeout(() => {
+                        if (fileInputRef.current) {
+                          console.log("File input ref found, triggering click");
+                          fileInputRef.current.click();
+                        } else {
+                          console.error("File input ref is null");
+                        }
+                      }, 100);
+                    }}
+                  >
+                    <Upload size={18} /> Upload Image (Button)
+                  </button>
+                  
+                  <div className="file-input-container">
+                    <label htmlFor="file-input-direct" className="file-input-label">
+                      <Upload size={16} /> Or click here directly
+                    </label>
+                    <input
+                      id="file-input-direct"
+                      type="file"
+                      ref={fileInputRef}
+                      onChange={(e) => {
+                        console.log("File input onChange triggered", e.target.files);
+                        handleImageUpload(e);
+                      }}
+                      accept="image/png,image/jpeg,image/gif,image/webp"
+                      className="file-input-visible"
+                    />
+                  </div>
+                  
+                  <div className="drag-drop-info">
+                    <p>💡 You can also drag and drop images onto the canvas area</p>
+                  </div>
+                </div>
               </div>
             )}
           </div>
